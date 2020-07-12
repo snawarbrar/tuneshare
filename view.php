@@ -11,24 +11,31 @@
       </nav>
     </div>
   </header>
-    <?php
+    <?php session_start();
     try {
-    //connect to our db 
-    require_once('connect.php'); 
+    //connect to our db
+    require_once('connect.php');
 
-    //set up SQL statement 
-    $sql = "SELECT * FROM songs;"; 
+    //set up SQL statement
+    $sql = "SELECT * FROM songs;";
 
-    //prepare the query 
+    //prepare the query
     $statement = $db->prepare($sql);
 
-    //execute 
-    $statement->execute(); 
+    //execute
+    $statement->execute();
 
-    //use fetchAll to store the results 
-    $records = $statement->fetchAll(); 
+    //use fetchAll to store the results
+    $records = $statement->fetchAll();
 
-    // echo out the top of the table 
+// display the username
+if (isset($_SESSION['name'])) {
+    echo "<h2> Hey There " . $_SESSION['name'] . "!</h2>";
+} else {
+    echo "<h2> Hey There! </h2>";
+}
+    // echo out the top of the table
+
 
     echo "<table class='table'>";
 
@@ -36,14 +43,15 @@
         echo "<tr><td><img src='images/". $record['photo']. "' alt='" . $record['photo'] . "'></td><td>"
         . $record['first_name'] . "</td><td>" . $record['last_name'] . "</td><td>" . $record['genre'] . "</td><td>" . $record['location'] . "</td><td>" . $record['email'] . "</td><td>" . $record['favsong']. "</td><td><a href='" . $record['link']. "' target='_blank'> Listen Now </a></td><td><a href='delete.php?id=" . $record['user_id'] . "'> Delete </a></td><td><a href='add.php?id=" . $record['user_id'] . "'>Edit </a></td></tr>";
         }
-     echo "</tbody></table>"; 
+     echo "</tbody></table>";
 
-     $statement->closeCursor(); 
+     $statement->closeCursor();
     }
     catch(PDOException $e) {
-        $error_message = $e->getMessage(); 
-        echo "<p> $error message </p>"; 
+        $error_message = $e->getMessage();
+        echo "<p> $error message </p>";
     }
     ?>
+    <a href="distroy.php" class="btn btn-lg btn-secondary orange"> Forget Me ! </a>
     </main>
     <?php require_once('footer.php'); ?>

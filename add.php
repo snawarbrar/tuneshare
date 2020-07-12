@@ -11,50 +11,56 @@
       </nav>
     </div>
   </header>
-    <?php
-    //initialize variables 
-    $id = null; 
+    <?php session_start();
+    //initialize variables
+    if (isset($_SESSION['name'])) {
+        echo "<h2> Hey There " . $_SESSION['name'] . "!</h2>";
+    } else {
+        echo "<h2> Hey There!</h2> ";
+    }
+    $id = null;
     $firstname = null;
-    $lastname = null; 
-    $location = null; 
-    $genre = null; 
-    $age = null; 
-    $email = null; 
+    $lastname = null;
+    $location = null;
+    $genre = null;
+    $age = null;
+    $email = null;
     $favsong = null;
-   
-    //added profile & linkk 
-    $profile = null; 
+
+    //added profile & linkk
+    $profile = null;
     $link = null;
 
     if(!empty($_GET['id']) && (is_numeric($_GET['id']))) {
       //grab the id from url
       $id = filter_input(INPUT_GET, 'id');
-      //connect to the database 
-      require_once('connect.php'); 
-      //set up our query 
-      $sql = "SELECT * FROM songs WHERE user_id = :user_id;"; 
+      //connect to the database
+      require_once('connect.php');
+      //set up our query
+      $sql = "SELECT * FROM songs WHERE user_id = :user_id;";
       //prepare our statement
-      $statement = $db->prepare($sql); 
-      //bind 
-      $statement->bindParam(':user_id', $id); 
-      //execute 
-      $statement->execute(); 
-      //use fetchAll to store 
-      $records = $statement->fetchAll(); 
-      //to loop through, use a foreach loop 
-      foreach($records as $record) : 
-      $firstname = $record['first_name']; 
-      $lastname = $record['last_name']; 
+      $statement = $db->prepare($sql);
+      //bind
+      $statement->bindParam(':user_id', $id);
+      //execute
+      $statement->execute();
+      //use fetchAll to store
+      $records = $statement->fetchAll();
+      //to loop through, use a foreach loop
+      foreach($records as $record) :
+      $firstname = $record['first_name'];
+      $lastname = $record['last_name'];
       $genre = $record['genre'];
-      $age = $record['age'];  
-      $location = $record['location']; 
-      $email = $record['email']; 
-      $favsong = $record['favsong']; 
+      $age = $record['age'];
+      $location = $record['location'];
+      $email = $record['email'];
+      $favsong = $record['favsong'];
       $profilepic = $record['profile'];
       $link = $record['link'];
-      endforeach; 
-      //close the db connection 
-      $statement->closeCursor(); 
+      endforeach;
+
+      //close the db connection
+      $statement->closeCursor();
     }
     ?>
     <main>
@@ -99,6 +105,7 @@
           <input type="file" name="photo" id="profilepic" value="<?php echo $profile;?>">
         </div>
         <input type="submit" name="submit" value="Submit" class="btn">
+        <a href="distroy.php" class="btn btn-lg btn-secondary orange"> Forget Me ! </a>
       </form>
     </main>
 <?php require_once('footer.php'); ?>

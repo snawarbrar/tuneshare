@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+<?php require_once('header.php');  session_start(); ?>
   <body class="text-center">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="masthead mb-auto">
@@ -10,6 +10,14 @@
         <a class="nav-link" href="view.php">View Playlists</a>
       </nav>
     </div>
+    // display the user name using sessions
+    <?php
+    if (isset($_SESSION['name'])) {
+        echo "<h3> Hey There " . $_SESSION['name'] . "!</h3>";
+    } else {
+        echo "<h3> Hey There! </h3>";
+    }
+    ?>
   </header>
 
   <main role="main" class="inner cover">
@@ -19,6 +27,8 @@
     <p class="lead">
       <a href="add.php" class="btn btn-lg btn-secondary">Share Your Top Tune</a>
       <a href="#" class="btn btn-lg btn-secondary orange">Browse Tunes </a>
+      <a href="distroy.php" class="btn btn-lg btn-secondary orange"> Forget Me ! </a>
+
     </p>
   </main>
   <footer class="mastfoot mt-auto">
